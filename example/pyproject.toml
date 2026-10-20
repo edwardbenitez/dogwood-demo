@@ -1,0 +1,19 @@
+[project]
+name = "dogwood-refund-demo"
+version = "0.1.0"
+description = "A chat agent demo for Dogwood policy-as-code authorization."
+requires-python = ">=3.10"
+dependencies = [
+    "azure-identity>=1.17.0",
+    "openai>=1.55.0",
+    "streamlit>=1.37.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

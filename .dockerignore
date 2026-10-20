@@ -1,0 +1,9 @@
+target
+.git
+**/.venv
+**/__pycache__
+**/.pytest_cache
+example/.env
+example/.env.*
+!example/.env.example
+!example/.env.ollama.example

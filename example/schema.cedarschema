@@ -1,0 +1,49 @@
+namespace Drupe {
+  type InvoiceInfoInput = {
+    call_id: String,
+    invoice_id: String
+  };
+
+  type InvoiceInfoOutput = {
+    found: Bool,
+    reimbursed: Bool
+  };
+
+  type ReturnMoneyInput = {
+    call_id: String,
+    invoice_id: String
+  };
+
+  type ReturnMoneyOutput = {
+    refunded: Bool
+  };
+
+  type SystemContext = {
+    now: datetime
+  };
+
+  entity Gateway;
+  entity OAuthUser = {
+    id: String
+  };
+
+  action "InvoiceInfo" appliesTo {
+    principal: [OAuthUser],
+    resource: [Gateway],
+    context: {
+      input: InvoiceInfoInput,
+      output?: InvoiceInfoOutput,
+      system: SystemContext
+    }
+  };
+
+  action "ReturnMoney" appliesTo {
+    principal: [OAuthUser],
+    resource: [Gateway],
+    context: {
+      input: ReturnMoneyInput,
+      output?: ReturnMoneyOutput,
+      system: SystemContext
+    }
+  };
+}

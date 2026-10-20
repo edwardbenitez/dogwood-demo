@@ -1,0 +1,21 @@
+// Allow invoice lookups so the agent can inspect the reimbursement status.
+@id("allow_invoice_info")
+permit (principal, action == Drupe::Action::"InvoiceInfo", resource);
+
+// Permit a refund only if, within the last day, the same invoice was looked up
+// and that lookup reported it as existing and NOT yet reimbursed.
+@id("refund_after_status_check")
+permit (principal, action == Drupe::Action::"ReturnMoney", resource)
+when temporal {
+    formerly within 24h Drupe::Action::"InvoiceInfo"::response{
+        input.invoice_id: context.input.invoice_id,
+        output.found: true,
+        output.reimbursed: false
+    }
+}
+unless temporal {
+    formerly within 24h Drupe::Action::"ReturnMoney"::response{
+        input.invoice_id: context.input.invoice_id,
+        output.refunded: true
+    }
+};
